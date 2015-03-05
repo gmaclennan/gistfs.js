@@ -1,0 +1,39 @@
+{
+  "name": "gistfs.js",
+  "version": "0.0.1",
+  "description": "Github gist API wrapper to writeFile and readFile",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js | tap-spec",
+    "doc": "dox -r < index.js | doxme --readme > README.md"
+  },
+  "keywords": [
+    "github",
+    "gist",
+    "api",
+    "fs",
+    "writefile",
+    "readfile"
+  ],
+  "author": "Gregor MacLennan",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^0.5.1",
+    "dox": "^0.6.1",
+    "doxme": "^1.8.1",
+    "octokat": "^0.4.6",
+    "tap-spec": "^2.2.2",
+    "tape": "^3.5.0"
+  },
+  "dependencies": {
+    "xtend": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gmaclennan/gistfs.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gmaclennan/gistfs.js/issues"
+  },
+  "homepage": "https://github.com/gmaclennan/gistfs.js"
+}
