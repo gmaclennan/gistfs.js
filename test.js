@@ -7,9 +7,13 @@ dotenv.load()
 
 // var testUser = process.env.GITHUB_USER
 
-var octo = new Octokat({
-  token: process.env.GITHUB_TOKEN
-})
+var options = {
+  auth: {
+    token: process.env.GITHUB_TOKEN
+  }
+}
+
+var octo = new Octokat(options.auth)
 
 var testFile1 = 'The quick brown fox jumps over the lazy dog',
   testFile2 = JSON.stringify({
@@ -18,7 +22,7 @@ var testFile1 = 'The quick brown fox jumps over the lazy dog',
     }
   })
 
-var fs, gist
+var fs
 
 function setup () {
   test('Create temporary test gist', function (t) {
@@ -31,8 +35,8 @@ function setup () {
       }
     }, function (err, response) {
       if (err) return t.end(err)
-      gist = octo.gists(response.id)
-      fs = gistfs(gist)
+      options.gistId = response.id
+      fs = gistfs(options)
       t.error(err, 'created temporary gist')
       t.end()
     })
@@ -41,7 +45,7 @@ function setup () {
 
 function teardown () {
   test('Delete temporary test gist', function (t) {
-    gist.remove(function (err) {
+    octo.gists(options.gistId).remove(function (err) {
       t.error(err, 'deleted temporary gist')
       t.end()
     })

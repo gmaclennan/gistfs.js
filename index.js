@@ -1,4 +1,5 @@
 var extend = require('xtend')
+var Octokat = require('octokat')
 var q = require('queue')({ concurrency: 1 })
 
 /**
@@ -22,17 +23,15 @@ var q = require('queue')({ concurrency: 1 })
  *
  * var gh = Gistfs(octo.gists('gist_id'))
  */
-function Gistfs (gist) {
+function Gistfs (options) {
   if (!(this instanceof Gistfs)) {
-    return new Gistfs(gist)
+    return new Gistfs(options)
   }
-  // Basic checks that we have a valid octokat gist.
-  if ((typeof gist !== 'function') ||
-    (typeof gist.comments !== 'function') ||
-    (typeof gist.star !== 'function')) {
-    throw new Error('Need to provide an octokat gist to constructor')
+  options = options || {}
+  if (!options.gistId) {
+    throw new Error('Need to provide options.gistId')
   }
-  this._gist = gist
+  this._gist = new Octokat(options.auth).gists(options.gistId)
 }
 
 /**
