@@ -1,6 +1,6 @@
 {
   "name": "gistfs.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Github gist API wrapper to writeFile and readFile",
   "main": "index.js",
   "scripts": {
