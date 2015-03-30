@@ -4,7 +4,7 @@
   "description": "Github gist API wrapper to writeFile and readFile",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js | tap-spec",
+    "test": "standard && node test.js | tap-spec",
     "doc": "dox -r < index.js | doxme --readme > README.md"
   },
   "keywords": [
@@ -22,6 +22,7 @@
     "dox": "^0.6.1",
     "doxme": "^1.8.1",
     "octokat": "^0.4.6",
+    "standard": "^3.3.0",
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0"
   },
