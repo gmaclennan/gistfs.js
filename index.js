@@ -1,4 +1,5 @@
 var extend = require('xtend')
+var q = require('queue')({ concurrency: 1 })
 
 /**
  * A mixin for [Octokat.js](https://github.com/philschatz/octokat.js) that
@@ -75,9 +76,15 @@ Gistfs.prototype.writeFile = function writeFile (filename, data, options, callba
     content: data
   }
 
-  this._gist.update(params, function (err) {
-    callback(err)
+  var _gist = this._gist
+
+  q.push(function (cb) {
+    _gist.update(params, function (err) {
+      callback(err)
+      cb()
+    })
   })
+  q.start()
 }
 
 /**

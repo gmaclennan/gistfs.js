@@ -68,4 +68,18 @@ test('Write file', function (t) {
   })
 })
 
+test('Write multiple files', function (t) {
+  t.plan(10)
+  var tasks = Array.apply(null, Array(5))
+
+  tasks.forEach(function (v, i) {
+    fs.writeFile('test' + i + '.txt', 'test' + i, { encoding: 'utf8' }, function () {
+      fs.readFile('test' + i + '.txt', { encoding: 'utf8'}, function (err, data) {
+        t.error(err, "doesn't return error")
+        t.equal(data, 'test' + i, 'file content matches')
+      })
+    })
+  })
+})
+
 teardown()
