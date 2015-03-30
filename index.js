@@ -9,21 +9,34 @@ var queues = {}
  * provides a simple wrapper for writing to and reading from a gist. It
  * provides an interface similar to node.js `fs.readFile` and `fs.writeFile`.
  *
- * ## Limitations
+ * **Limitations**
  *
  * Currently will only read files < 1Mb
  *
- * @param  {Octokat.gist} repo A vaid repo returned from Octokat with
- * the call `octo.gists('gist_id')`. See below for examples.
+ * ### Breaking change in v1.0.0
+ *
+ * No longer operates as a Octokat mixin, instead new instances are created
+ * with an `options` object with the owner, repo and auth, which is passed
+ * to Octokat.
+ *
+ * @param  {Object} options `options.gistId` (required) valid gistId,
+ * `options.auth` (optional) passed through to a new
+ * [Octokat instance](https://github.com/philschatz/octokat.js#in-a-browser).
+ * See below for examples.
  * @return {Object}      returns and instance of Gistfs with two methods
  * `readFile` and `writeFile`.
  * @example
  * var Gistfs = require('Gistfs');
- * var Octokat = require('octokat')
  *
- * var octo = new Octocat({ username: "USER_NAME", password: "PASSWORD" })
+ * var options = {
+ *   gistId = 'gist_id',
+ *   auth: {
+ *     username: "USER_NAME",
+ *     password: "PASSWORD"
+ *   }
+ * }
  *
- * var gh = Gistfs(octo.gists('gist_id'))
+ * var gh = Gistfs(options)
  */
 function Gistfs (options) {
   if (!(this instanceof Gistfs)) {
