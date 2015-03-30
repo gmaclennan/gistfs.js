@@ -1,6 +1,8 @@
 var extend = require('xtend')
 var Octokat = require('octokat')
-var q = require('queue')({ concurrency: 1 })
+var queue = require('queue')
+
+var queues = {}
 
 /**
  * A mixin for [Octokat.js](https://github.com/philschatz/octokat.js) that
@@ -31,7 +33,9 @@ function Gistfs (options) {
   if (!options.gistId) {
     throw new Error('Need to provide options.gistId')
   }
-  this._gist = new Octokat(options.auth).gists(options.gistId)
+  var gistId = options.gistId
+  this._gist = new Octokat(options.auth).gists(gistId)
+  this._queue = queues[gistId] = queues[gistId] || queue({ concurrency: 1 })
 }
 
 /**
@@ -77,13 +81,13 @@ Gistfs.prototype.writeFile = function writeFile (filename, data, options, callba
 
   var _gist = this._gist
 
-  q.push(function (cb) {
+  this._queue.push(function (cb) {
     _gist.update(params, function (err) {
       callback(err)
       cb()
     })
   })
-  q.start()
+  this._queue.start()
 }
 
 /**
